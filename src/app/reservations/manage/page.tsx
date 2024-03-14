@@ -1,8 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default function ManageReservations() {
   return (
-    <div>Manage Your Reservation</div>
-  )
+    <main className="text-center text-lg">
+      <div>Manage Your Reservation</div>
+    </main>
+  );
 }
-
