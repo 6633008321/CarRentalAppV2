@@ -1,9 +1,13 @@
 "use client";
-import React, { useReducer } from "react";
+import React, { useReducer, useRef } from "react";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 
 export default function CarPanel() {
+
+    const inputRef = useRef<HTMLInputElement>(null);
+    const countRef = useRef(0);
+
     const compareReducer = (
         compareList: Set<string>,
         action: { type: string; carName: string }
@@ -45,15 +49,17 @@ export default function CarPanel() {
                     alignContent: "space-around",
                 }}
             >
-                {
-                    mockCarRepo.map((carItem)=>(
-                        <Link href={`/car/${carItem.cid}` } className="w-1/5">
-                        <ProductCard carName={carItem.name} imgSrc={carItem.image} onCompare={(car: string) => {
-                            dispatchCompare({ type: "add", carName: car });
-                        }}/>
-                        </Link>
-                    ))
-                }    
+                {mockCarRepo.map((carItem) => (
+                    <Link href={`/car/${carItem.cid}`} className="w-1/5">
+                        <ProductCard
+                            carName={carItem.name}
+                            imgSrc={carItem.image}
+                            onCompare={(car: string) => {
+                                dispatchCompare({ type: "add", carName: car });
+                            }}
+                        />
+                    </Link>
+                ))}
             </div>
             <div className="w-full text-xl font-medium">
                 Compare List: {compareList.size}
@@ -68,6 +74,33 @@ export default function CarPanel() {
                     {car}
                 </div>
             ))}
+
+            <button
+                className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 text-white shadow-sm"
+                onClick={() => {
+                    countRef.current = countRef.current + 1;
+                    alert(countRef.current);
+                }}
+            >
+                Count with Ref
+            </button>
+            <input
+                ref={inputRef}
+                type="text"
+                placeholder="pleas fill"
+                className="block text-gray-900 text-sm rounded-lg p-2 m-2 bg-purple-50 ring-1 ring-inset ring-purple-400 focus:outline-none focus:bg-purple-200 focus:ring-2"
+            />
+            
+            <button
+                className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 text-white shadow-sm"
+                onClick={() => {
+                    if(inputRef.current!==null){
+                        inputRef.current.focus();
+                    }
+                }}
+            >
+                Focus Input
+            </button>
         </div>
     );
 }
