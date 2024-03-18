@@ -1,9 +1,19 @@
 "use client";
-import React, { useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
+import getCars from "@/libs/getCars";
 
 export default function CarPanel() {
+    const [carResponse, setCarResponse] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const cars = await getCars();
+            setCarResponse(cars);
+        }
+        fetchData();
+    }, []);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const countRef = useRef(0);
@@ -30,13 +40,17 @@ export default function CarPanel() {
         new Set<string>()
     );
 
+    /*
+     
     const mockCarRepo = [
         {cid: "001", name:"Honda Civic", image:"/img/civic.jpg"},
         {cid: "002", name:"Honda Accord", image:"/img/accord.jpg"},
         {cid: "003", name:"Toyota Fortuner", image:"/img/fortuner.jpg"},
         {cid: "004", name:"Tesla Model 3", image:"/img/tesla.jpg"}
-    ]
+    ]*/
 
+    if (!carResponse)
+        return <p>Car Panel is Loading ...</p>;
     return (
         <div>
             <div
@@ -49,11 +63,11 @@ export default function CarPanel() {
                     alignContent: "space-around",
                 }}
             >
-                {mockCarRepo.map((carItem) => (
-                    <Link href={`/car/${carItem.cid}`} className="w-1/5">
+                {carResponse.data.map((carItem:Object) => (
+                    <Link href={`/car/${carItem.id}`} className="w-1/5">
                         <ProductCard
-                            carName={carItem.name}
-                            imgSrc={carItem.image}
+                            carName={carItem.model}
+                            imgSrc={carItem.picture}
                             onCompare={(car: string) => {
                                 dispatchCompare({ type: "add", carName: car });
                             }}
@@ -90,11 +104,11 @@ export default function CarPanel() {
                 placeholder="pleas fill"
                 className="block text-gray-900 text-sm rounded-lg p-2 m-2 bg-purple-50 ring-1 ring-inset ring-purple-400 focus:outline-none focus:bg-purple-200 focus:ring-2"
             />
-            
+
             <button
                 className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 text-white shadow-sm"
                 onClick={() => {
-                    if(inputRef.current!==null){
+                    if (inputRef.current !== null) {
                         inputRef.current.focus();
                     }
                 }}
