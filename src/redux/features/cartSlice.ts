@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ReservationItem } from "../../../interfaces";
 
 type CartState = {
+    reservations: any;
     carItems: ReservationItem[];
 }
 

@@ -1,12 +1,22 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import cartSlice from "./features/cartSlice";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { Root } from "react-dom/client";
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+
+const persistConfig = {
+    key: "rootPersist",
+    storage
+}
+
+const rootReducer = combineReducers({cartSlice})
+const reduxPersistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({ 
-    reducer: {
-        cartSlice
-    } 
+    reducer: reduxPersistedReducer
+    
 });
 
 export type RootState = ReturnType<typeof store.getState>;

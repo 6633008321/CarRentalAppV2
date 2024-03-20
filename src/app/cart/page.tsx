@@ -1,4 +1,3 @@
-'use client'
 
 import ReservationCart from '@/components/ReservationCart'
 import React from 'react'

@@ -1,3 +1,4 @@
+'use client'
 import { removeReservation } from "@/redux/features/cartSlice";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import React from "react";
