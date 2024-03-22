@@ -2,11 +2,12 @@ import CarCatalog from '@/components/CarCatalog';
 import CarPanel from '@/components/CarPanel'
 import getCars from '@/libs/getCars'
 import { LinearProgress } from '@mui/material';
+import { CarJson } from 'interfaces';
 import React, { Suspense } from 'react'
 
-export default function car() {
+export default async function car() {
 
-  const cars = getCars();
+  const cars:CarJson = await getCars();
   return (
       <main className="text-center p-5">
           <h1 className="text-xl font-medium">Select Your Travel Partner</h1>
