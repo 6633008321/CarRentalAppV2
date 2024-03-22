@@ -6,7 +6,8 @@ type CartState = {
     carItems: ReservationItem[];
 }
 
-const initialState: CartState = { carItems: [] };
+
+const initialState: CartState = { reservations: {}, carItems: [] };
 
 export const cartSlice = createSlice({
     name: "cart",
