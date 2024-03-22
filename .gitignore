@@ -37,6 +37,7 @@ next-env.d.ts
 
 .vscode
 
+#cypress
 /cypress
 src/components/*.cy.tsx
 cypress.config.ts
